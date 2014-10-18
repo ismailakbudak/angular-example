@@ -1,5 +1,5 @@
  
-var app = angular.module('myApp', ['ngRoute']);
+var app = angular.module('EmailApp', ['ngRoute']);
  
 app.config(function ( $routeProvider ) {
    
@@ -20,8 +20,45 @@ app.config(function ( $routeProvider ) {
         });
 });
 
-app.controller('InboxCtrl', function ($scope) {
-      $scope.emails = [ {'from': 'ismail', 'to': 'test'  },
-                        {'from': 'ismail2', 'to': 'test2'  } ];
+
  
+/**
+ * Controller: InboxCtrl
+ */
+angular.module('EmailApp')
+  .controller('InboxCtrl',
+    function InboxCtrl ( $scope, InboxFactory ) {
+      'use strict';
+      $scope.meta = {
+        title: "My Inbox"
+      };
+      InboxFactory.getMessages()
+        .success(function(jsonData, statusCode){
+            console.log('The request was successful!', statusCode);
+            console.dir(jsonData);
+            // Now add the Email messages to the controller's scope
+            $scope.data = {
+              emails: jsonData
+            };
+        });
     });
+
+
+  /**
+ * Factory: InboxFactory
+ */
+
+angular.module('EmailApp')
+  .factory('InboxFactory', function InboxFactory ($q, $http, $location) {
+    'use strict';
+    var exports = {};
+
+    exports.getMessages = function () {
+      return $http({ method: 'GET', url: 'json/emails.json' })
+        .error( function (data, status, headers, config) {
+          console.log('There was an error!', data);
+        });
+    };
+
+    return exports;
+  });

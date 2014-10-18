@@ -1,3 +1,6 @@
 ## Information
-AngularJS sample  application client side
+AngularJS sample application
+
+# Usage
+In project directory run `bower install angular --save`
   

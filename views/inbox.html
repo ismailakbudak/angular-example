@@ -1,8 +1,6 @@
-<div>{{title}}</div>
-<input type="text" ng-model="title" />
-<p>Total number of emails: {{emails.length}}</p>
- <ul>
-     <li ng-repeat="(key, value) in emails">
-          <p>{{ value.from }}</p>
-     </li>
- </ul>
+ <div class="module inbox-view">
+  <div class="module__title">
+    <h1>{{ meta.title }}</h1>
+  </div>
+  <pre>{{ data.emails | json }}</pre>
+</div>
